@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace NZWalks.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class RegionController : ControllerBase
     {
         private readonly IRegionRepository regionRepository;
@@ -22,6 +24,7 @@ namespace NZWalks.API.Controllers
             this.mapper = mapper;
         }
         [HttpGet]
+        [Authorize(Roles="reader")]
         public async Task<IActionResult> GetAllRegion()
         {
            var regions = await regionRepository.GetAllRegionAsync();
@@ -50,6 +53,7 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles="writer")]
         public async Task<IActionResult> AddRegionAsync(AddRegionRequestDto addRegionRequestDto)
         {
             //Convert DTO to domain model
@@ -86,6 +90,7 @@ namespace NZWalks.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
             var region =  await regionRepository.DeleteAsync(id);
@@ -110,6 +115,7 @@ namespace NZWalks.API.Controllers
 
         [HttpPut]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "writer")]
         public async Task<IActionResult> UpdateRegionASync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
         {
 
