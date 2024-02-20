@@ -38,6 +38,7 @@ namespace NZWalks.API.Controllers
         [ActionName("GetByIDAsync")]
         public async Task<IActionResult> GetByIDAsync(Guid id)
         {
+            //Get the data from repository
            var regionDomain = await regionRepository.GetByIdAsync(id);
 
             if(regionDomain == null)
@@ -73,6 +74,7 @@ namespace NZWalks.API.Controllers
           region = await regionRepository.AddRegionAsync(region);
 
             //Convert Domain mode to DTO
+            //Use Automapper to avoid more code
 
             var regionDTO = new RegionDto
             {

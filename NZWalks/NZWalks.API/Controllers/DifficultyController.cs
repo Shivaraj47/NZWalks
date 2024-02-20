@@ -29,6 +29,7 @@ namespace NZWalks.API.Controllers
             var difficultyDomain = await difficultyRepository.GetAllAsync();
 
             //Convert Domain to DTO
+            //Use Automapper to avoid more code
 
             var difficultyDto = mapper.Map<List<WalksDifficultyDto>>(difficultyDomain);
 
