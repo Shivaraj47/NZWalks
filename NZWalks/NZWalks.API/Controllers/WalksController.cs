@@ -63,7 +63,8 @@ namespace NZWalks.API.Controllers
 
             walkDomain = await walkRepository.CreateWalkAsync(walkDomain);
 
-            //Convert Domain model to DTO
+            //Convert Domain model to DTO 
+            //Making sure you use DTO
 
             var walkDto = mapper.Map<WalkDto>(walkDomain);
             
