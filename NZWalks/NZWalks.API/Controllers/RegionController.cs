@@ -32,6 +32,11 @@ namespace NZWalks.API.Controllers
            var regionsDTO = mapper.Map<List<Model.DTO.RegionDto>>(regions);
             return Ok(regionsDTO);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         [HttpGet]
         [Route("{id:Guid}")]
