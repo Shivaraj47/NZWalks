@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Model.Domain;
 using NZWalks.API.Model.DTO;
@@ -7,113 +6,122 @@ using NZWalks.API.Repository;
 
 namespace NZWalks.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class DifficultyController : ControllerBase
-    {
-        private readonly IDifficultyRepository difficultyRepository;
-        private readonly IMapper mapper;
-
-        public DifficultyController(IDifficultyRepository difficultyRepository, IMapper mapper)
+        [Route("api/[controller]")]
+        [ApiController]
+        public class DifficultyController : ControllerBase
         {
-            this.difficultyRepository = difficultyRepository;
-            this.mapper = mapper;
-        }
+                private readonly IDifficultyRepository difficultyRepository;
+                private readonly IMapper mapper;
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
-        {
+                public DifficultyController(IDifficultyRepository difficultyRepository, IMapper mapper)
+                {
+                        this.difficultyRepository = difficultyRepository;
+                        this.mapper = mapper;
+                }
+        /// <summary>
+        /// Get alldificulies
+        /// </summary>
+        /// <returns></returns>
 
-            //Passing data to repository
+                [HttpGet]
+                public async Task<IActionResult> GetAllAsync()
+                {
 
-            var difficultyDomain = await difficultyRepository.GetAllAsync();
+                        //Passing data to repository
 
-            //Convert Domain to DTO
-            //Use Automapper to avoid more code
+                        var difficultyDomain = await difficultyRepository.GetAllAsync();
 
-            var difficultyDto = mapper.Map<List<WalksDifficultyDto>>(difficultyDomain);
+                        //Convert Domain to DTO
+                        //Use Automapper to avoid more code
 
-            return Ok(difficultyDto);
-        }
+                        var difficultyDto = mapper.Map<List<WalksDifficultyDto>>(difficultyDomain);
 
-        [HttpPost]
+                        return Ok(difficultyDto);
+                }
 
-        public async Task<IActionResult> CreateAsync([FromBody] AddDifficultyDTO addDifficultyDTO)
-        {
-            //Convert DTO to Domain Model
+                [HttpPost]
 
-            var difficultyDomain = mapper.Map<WalkDifficulty>(addDifficultyDTO);
+                public async Task<IActionResult> CreateAsync([FromBody] AddDifficultyDTO addDifficultyDTO)
+                {
+                        //Convert DTO to Domain Model
 
-            //Pass data to respository
-            difficultyDomain = await difficultyRepository.CreateAsync(difficultyDomain);
+                        var difficultyDomain = mapper.Map<WalkDifficulty>(addDifficultyDTO);
 
-            //Convert Domain model to DTO
-            var difficultyDto = mapper.Map<WalksDifficultyDto>(difficultyDomain);
+                        //Pass data to respository
+                        difficultyDomain = await difficultyRepository.CreateAsync(difficultyDomain);
 
-            return Ok(difficultyDto);
-        }
+                        //Convert Domain model to DTO
+                        var difficultyDto = mapper.Map<WalksDifficultyDto>(difficultyDomain);
 
-        [HttpGet]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
-        {
-            var difficultyDomain = await difficultyRepository.GetByIdAsync(id);
+                        return Ok(difficultyDto);
+                }
 
-            if (difficultyDomain == null)
-            {
-                return NotFound();
-            }
+                [HttpGet]
+                [Route("{id:Guid}")]
+                public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+                {
+                        var difficultyDomain = await difficultyRepository.GetByIdAsync(id);
 
-            //Convert Domain to DTO
-            var difficultyDTO = mapper.Map<WalksDifficultyDto>(difficultyDomain);
+                        if (difficultyDomain == null)
+                        {
+                                return NotFound();
+                        }
 
-            return Ok(difficultyDTO);
-        }
+                        //Convert Domain to DTO
+                        var difficultyDTO = mapper.Map<WalksDifficultyDto>(difficultyDomain);
+
+                        return Ok(difficultyDTO);
+                }
+
+        /// <summary>
+        /// Get alldificulies
+        /// </summary>
+        /// <returns></returns>
 
         [HttpPut]
-        [Route("{id:Guid}")]
+                [Route("{id:Guid}")]
 
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateDifficultyDto updateDifficultyDto)
-        {
-            //Map DTO to Domain model
+                public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateDifficultyDto updateDifficultyDto)
+                {
+                        //Map DTO to Domain model
 
-            var difficultyDomain = mapper.Map<WalkDifficulty>(updateDifficultyDto);
+                        var difficultyDomain = mapper.Map<WalkDifficulty>(updateDifficultyDto);
 
-            //Update data using repository
+                        //Update data using repository
 
-            difficultyDomain = await difficultyRepository.UpdateDiffSync(difficultyDomain,id);
+                        difficultyDomain = await difficultyRepository.UpdateDiffSync(difficultyDomain, id);
 
-            //Check id exist or not
+                        //Check id exist or not
 
-            if (difficultyDomain == null)
-            {
-                return NotFound();
-            }
+                        if (difficultyDomain == null)
+                        {
+                                return NotFound();
+                        }
 
-            //Convert Domain to DTO
+                        //Convert Domain to DTO
 
-            var difficultyDto = mapper.Map<WalksDifficultyDto> (difficultyDomain);
+                        var difficultyDto = mapper.Map<WalksDifficultyDto>(difficultyDomain);
 
-            return Ok(difficultyDto);
+                        return Ok(difficultyDto);
 
+                }
+
+                [HttpDelete]
+                [Route("{id:Guid}")]
+                public async Task<IActionResult> DeleteAsync(Guid id)
+                {
+                        var difficultyDomain = await difficultyRepository.DeleteAsync(id);
+
+                        if (difficultyDomain == null)
+                        {
+                                return NotFound();
+                        }
+
+                        //Convert Domain model to DTO
+
+                        var difficutlyDto = mapper.Map<WalksDifficultyDto>(difficultyDomain);
+
+                        return Ok(difficutlyDto);
+                }
         }
-
-        [HttpDelete]
-        [Route("{id:Guid}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var difficultyDomain = await difficultyRepository.DeleteAsync(id);
-
-            if(difficultyDomain == null)
-            {
-                return NotFound();
-            }
-
-            //Convert Domain model to DTO
-
-            var difficutlyDto = mapper.Map<WalksDifficultyDto>(difficultyDomain);
-
-            return Ok(difficutlyDto);
-        }
-    }
 }
