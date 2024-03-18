@@ -36,6 +36,11 @@ namespace NZWalks.API.Controllers
 
             
         }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 
         [HttpGet]
         [Route("{id:Guid}")]
