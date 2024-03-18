@@ -19,7 +19,10 @@ namespace NZWalks.API.Controllers
             this.difficultyRepository = difficultyRepository;
             this.mapper = mapper;
         }
-
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
