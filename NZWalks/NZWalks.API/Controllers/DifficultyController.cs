@@ -35,6 +35,11 @@ namespace NZWalks.API.Controllers
 			return Ok(difficultyDto);
 		}
 
+		/// <summary>
+		/// post
+		/// </summary>
+		/// <param name="addDifficultyDTO"></param>
+		/// <returns></returns>
 		[HttpPost]
 
 		public async Task<IActionResult> CreateAsync([FromBody] AddDifficultyDTO addDifficultyDTO)
