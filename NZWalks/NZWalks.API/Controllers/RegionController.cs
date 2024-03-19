@@ -23,6 +23,10 @@ namespace NZWalks.API.Controllers
             this.regionRepository = regionRepository;
             this.mapper = mapper;
         }
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
         [HttpGet]
         [Authorize(Roles="reader")]
         public async Task<IActionResult> GetAllRegion()
