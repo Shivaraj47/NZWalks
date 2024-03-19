@@ -16,6 +16,11 @@ namespace NZWalks.API.Controllers
 			this.userRepository = userRepository;
 			this.tokenHandler = tokenHandler;
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="loginRequestDto"></param>
+		/// <returns></returns>
 
 		[HttpPost]
 		[Route("login")]
