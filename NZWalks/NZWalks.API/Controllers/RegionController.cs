@@ -30,6 +30,11 @@ namespace NZWalks.API.Controllers
 			return Ok(regionsDTO);
 		}
 
+		/// <summary>
+		/// Get
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		[Route("{id:Guid}")]
 		[ActionName("GetByIDAsync")]
