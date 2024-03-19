@@ -20,6 +20,10 @@ namespace NZWalks.API.Controllers
 			this.regionRepository = regionRepository;
 			this.mapper = mapper;
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Authorize(Roles = "reader")]
 		public async Task<IActionResult> GetAllRegion()
@@ -50,6 +54,11 @@ namespace NZWalks.API.Controllers
 			return Ok(regionDTO);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="addRegionRequestDto"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[Authorize(Roles = "writer")]
 		public async Task<IActionResult> AddRegionAsync(AddRegionRequestDto addRegionRequestDto)
