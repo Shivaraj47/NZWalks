@@ -1,161 +1,163 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Model.Domain;
 using NZWalks.API.Model.DTO;
 using NZWalks.API.Repository;
-using System.Diagnostics.Contracts;
 
 namespace NZWalks.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    
-    public class RegionController : ControllerBase
-    {
-        private readonly IRegionRepository regionRepository;
-        private readonly IMapper mapper;
+	[Route("api/[controller]")]
+	[ApiController]
 
-        public RegionController(IRegionRepository regionRepository, IMapper mapper)
-        {
-            this.regionRepository = regionRepository;
-            this.mapper = mapper;
-        }
-        [HttpGet]
-        [Authorize(Roles="reader")]
-        public async Task<IActionResult> GetAllRegion()
-        {
-           var regions = await regionRepository.GetAllRegionAsync();
+	public class RegionController : ControllerBase
+	{
+		private readonly IRegionRepository regionRepository;
+		private readonly IMapper mapper;
 
-           var regionsDTO = mapper.Map<List<Model.DTO.RegionDto>>(regions);
-            return Ok(regionsDTO);
-        }
+		public RegionController(IRegionRepository regionRepository, IMapper mapper)
+		{
+			this.regionRepository = regionRepository;
+			this.mapper = mapper;
+		}
+		[HttpGet]
+		[Authorize(Roles = "reader")]
+		public async Task<IActionResult> GetAllRegion()
+		{
+			var regions = await regionRepository.GetAllRegionAsync();
 
-        [HttpGet]
-        [Route("{id:Guid}")]
-        [ActionName("GetByIDAsync")]
-        public async Task<IActionResult> GetByIDAsync(Guid id)
-        {
-            //Get the data from repository
-           var regionDomain = await regionRepository.GetByIdAsync(id);
+			var regionsDTO = mapper.Map<List<Model.DTO.RegionDto>>(regions);
+			return Ok(regionsDTO);
+		}
 
-            if(regionDomain == null)
-            {
-                return NotFound();
-            }
+		/// <summary>
+		/// Get
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		[HttpGet]
+		[Route("{id:Guid}")]
+		[ActionName("GetByIDAsync")]
+		public async Task<IActionResult> GetByIDAsync(Guid id)
+		{
+			//Get the data from repository
+			var regionDomain = await regionRepository.GetByIdAsync(id);
 
-            //Map Domain model to DTO 
+			if (regionDomain == null)
+			{
+				return NotFound();
+			}
 
-            var regionDTO = mapper.Map<Model.DTO.RegionDto>(regionDomain);
+			//Map Domain model to DTO 
 
-            return Ok(regionDTO);
-        }
+			var regionDTO = mapper.Map<Model.DTO.RegionDto>(regionDomain);
 
-        [HttpPost]
-        [Authorize(Roles="writer")]
-        public async Task<IActionResult> AddRegionAsync(AddRegionRequestDto addRegionRequestDto)
-        {
-            //Convert DTO to domain model
+			return Ok(regionDTO);
+		}
 
-            var region = new Region()
-            {
-                Code = addRegionRequestDto.Code,
-                Area = addRegionRequestDto.Area,
-                Lat = addRegionRequestDto.Lat,
-                Long = addRegionRequestDto.Long,
-                Name = addRegionRequestDto.Name,
-                Population = addRegionRequestDto.Population
-            };
+		[HttpPost]
+		[Authorize(Roles = "writer")]
+		public async Task<IActionResult> AddRegionAsync(AddRegionRequestDto addRegionRequestDto)
+		{
+			//Convert DTO to domain model
 
-          // Pass details to repository
+			var region = new Region()
+			{
+				Code = addRegionRequestDto.Code,
+				Area = addRegionRequestDto.Area,
+				Lat = addRegionRequestDto.Lat,
+				Long = addRegionRequestDto.Long,
+				Name = addRegionRequestDto.Name,
+				Population = addRegionRequestDto.Population
+			};
 
-          region = await regionRepository.AddRegionAsync(region);
+			// Pass details to repository
 
-            //Convert Domain mode to DTO
-            //Use Automapper to avoid more code
+			region = await regionRepository.AddRegionAsync(region);
 
-            var regionDTO = new RegionDto
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Area = region.Area,
-                Lat = region.Lat,
-                Long = region.Long,
-                Name = region.Name,
-                Population = region.Population
-            };
+			//Convert Domain mode to DTO
+			//Use Automapper to avoid more code
 
-            return CreatedAtAction(nameof(GetByIDAsync), new { id = regionDTO.Id }, regionDTO);
-        }
+			var regionDTO = new RegionDto
+			{
+				Id = region.Id,
+				Code = region.Code,
+				Area = region.Area,
+				Lat = region.Lat,
+				Long = region.Long,
+				Name = region.Name,
+				Population = region.Population
+			};
 
-        [HttpDelete]
-        [Route("{id:Guid}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteAsync(Guid id)
-        {
-            var region =  await regionRepository.DeleteAsync(id);
+			return CreatedAtAction(nameof(GetByIDAsync), new { id = regionDTO.Id }, regionDTO);
+		}
 
-            if(region == null)
-            {
-                return NotFound();
-            }
+		[HttpDelete]
+		[Route("{id:Guid}")]
+		[Authorize]
+		public async Task<IActionResult> DeleteAsync(Guid id)
+		{
+			var region = await regionRepository.DeleteAsync(id);
 
-            var regionDTO = new RegionDto
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Area = region.Area,
-                Lat = region.Lat,
-                Long = region.Long,
-                Name = region.Name,
-                Population = region.Population
-            };
-            return Ok(regionDTO);
-        }
+			if (region == null)
+			{
+				return NotFound();
+			}
 
-        [HttpPut]
-        [Route("{id:Guid}")]
-        [Authorize(Roles = "writer")]
-        public async Task<IActionResult> UpdateRegionASync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
-        {
+			var regionDTO = new RegionDto
+			{
+				Id = region.Id,
+				Code = region.Code,
+				Area = region.Area,
+				Lat = region.Lat,
+				Long = region.Long,
+				Name = region.Name,
+				Population = region.Population
+			};
+			return Ok(regionDTO);
+		}
 
-            //Convetr DTO to Domain model
+		[HttpPut]
+		[Route("{id:Guid}")]
+		[Authorize(Roles = "writer")]
+		public async Task<IActionResult> UpdateRegionASync([FromRoute] Guid id, [FromBody] UpdateRegionRequest updateRegionRequest)
+		{
 
-            var region = new Region()
-            {
-                Code = updateRegionRequest.Code,
-                Area = updateRegionRequest.Area,
-                Lat = updateRegionRequest.Lat,
-                Long = updateRegionRequest.Long,
-                Name = updateRegionRequest.Name,
-                Population = updateRegionRequest.Population
-            };
+			//Convetr DTO to Domain model
 
-            //Update region using repository
+			var region = new Region()
+			{
+				Code = updateRegionRequest.Code,
+				Area = updateRegionRequest.Area,
+				Lat = updateRegionRequest.Lat,
+				Long = updateRegionRequest.Long,
+				Name = updateRegionRequest.Name,
+				Population = updateRegionRequest.Population
+			};
 
-            region = await regionRepository.UpdateRegionAsync(region, id);
+			//Update region using repository
 
-            if(region == null)
-            {
-                return NotFound();
-            }
+			region = await regionRepository.UpdateRegionAsync(region, id);
 
-            //Convert Domain to DTO
+			if (region == null)
+			{
+				return NotFound();
+			}
 
-            var regionDTO = new RegionDto
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Area = region.Area,
-                Lat = region.Lat,
-                Long = region.Long,
-                Name = region.Name,
-                Population = region.Population
-            };
+			//Convert Domain to DTO
 
-            return Ok(regionDTO);
-        }
-    }
+			var regionDTO = new RegionDto
+			{
+				Id = region.Id,
+				Code = region.Code,
+				Area = region.Area,
+				Lat = region.Lat,
+				Long = region.Long,
+				Name = region.Name,
+				Population = region.Population
+			};
+
+			return Ok(regionDTO);
+		}
+	}
 }
