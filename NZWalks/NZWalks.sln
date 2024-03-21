@@ -4,11 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NZWalks.API", "NZWalks.API\NZWalks.API.csproj", "{94576382-0E64-4F13-B38A-1EE2FFA103AB}"
+<<<<<<< HEAD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C785FFC2-1FE8-4829-B949-F7BDDFA317EC}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+=======
+>>>>>>> f/FDAFFLT-12
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
