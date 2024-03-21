@@ -21,6 +21,10 @@ namespace NZWalks.API.Controllers
 			this.walkRepository = walkRepository;
 			this.mapper = mapper;
 		}
+		/// <summary>
+		/// Get 21-03
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Authorize(Roles = "reader")]
 		public async Task<IActionResult> GetALlAsync()
@@ -49,7 +53,11 @@ namespace NZWalks.API.Controllers
 			var walkDto = mapper.Map<WalkDto>(walkDomain);
 			return Ok(walkDto);
 		}
-
+		/// <summary>
+		/// Create 21-03
+		/// </summary>
+		/// <param name="addWalkRequestDTO"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[Authorize(Roles = "writer")]
 		public async Task<IActionResult> CreateWalkAsync([FromBody] AddWalkRequestDTO addWalkRequestDTO)
