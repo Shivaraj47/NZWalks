@@ -21,6 +21,10 @@ namespace NZWalks.API.Controllers
 			this.walkRepository = walkRepository;
 			this.mapper = mapper;
 		}
+		/// <summary>
+		/// Get all walk 21-03
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		[Authorize(Roles = "reader")]
 		public async Task<IActionResult> GetALlAsync()
