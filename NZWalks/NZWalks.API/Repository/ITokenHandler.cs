@@ -2,8 +2,8 @@
 
 namespace NZWalks.API.Repository
 {
-    public interface ITokenHandler
-    {
-       Task<string> CreateTokenAsync(User user);
-    }
+	public interface ITokenHandler
+	{
+		Task<string> CreateTokenAsync(User user);
+	}
 }
