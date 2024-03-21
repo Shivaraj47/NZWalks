@@ -18,7 +18,10 @@ namespace NZWalks.API.Controllers
 			this.difficultyRepository = difficultyRepository;
 			this.mapper = mapper;
 		}
-
+		/// <summary>
+		/// Get walk
+		/// </summary>
+		/// <returns></returns>
 		[HttpGet]
 		public async Task<IActionResult> GetAllAsync()
 		{
@@ -33,6 +36,11 @@ namespace NZWalks.API.Controllers
 			return Ok(difficultyDto);
 		}
 
+		/// <summary>
+		/// create walk 21-03
+		/// </summary>
+		/// <param name="addDifficultyDTO"></param>
+		/// <returns></returns>
 		[HttpPost]
 
 		public async Task<IActionResult> CreateAsync([FromBody] AddDifficultyDTO addDifficultyDTO)
